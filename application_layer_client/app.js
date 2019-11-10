@@ -7,6 +7,8 @@ var fs = require('fs')
 const _from = "guceconelli@gmail.com"
 const email = require('./server.js')
 var shell = require('shelljs')
+var tj = require('templatesjs')
+var location = require('location-href')
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -15,6 +17,13 @@ app.set('view engine', 'ejs');
 
 app.get('/', function (req, res) {
   res.sendFile(path.join(__dirname+'/index.html'));
+  // res.send('Hello World!');
+});
+
+app.get('/main', function (req, res) {
+  console.log('/main')
+  res.render("response",{page:'teste'})
+  // res.sendFile(path.join(__dirname+'/index.html'));
   // res.send('Hello World!');
 });
 
@@ -30,10 +39,14 @@ app.post('/action_page',function(req, res) {
 
 })
 
+
 app.post('/receive_message',function(req,res) {
     var msg=req.body.msg;
     console.log("application client layer")
-    res.render("response",{page:msg})
+    // res.render("response",{page:msg})
+    // location.set("http://localhost:8000/main")
+    res.redirect('/main')
+    //res.end()
     // res.setHeader("Content-Type", "text/html");
     // res.write("<p>Hello World</p>");
     // res.send(msg)
@@ -44,7 +57,6 @@ app.post('/receive_message',function(req,res) {
     //                 // trying same but forcing status
     //   res.status(200).send(html);
     // });
-    res.end()
 })
 
 
