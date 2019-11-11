@@ -122,10 +122,10 @@ class server(object):
               messageReceived + '\'')
 
         print(str(dt.now()) + ': sending the received message for upper layer')
-        url = "http://localhost:8000/receive_message"
+        url = "http://localhost:3007/receivemessagephy/" + messageReceived
         data = {'msg': messageReceived}
         headers = {'Content-type': 'application/json', 'Accept': 'text/plain'}
         r = requests.post(url=url, data=json.dumps(data), headers=headers)
         self.receiveFromAbove(clientSocket, 'localhost', r.text)
-        print('bye python')
+        print('bye python ' + r.text)
         

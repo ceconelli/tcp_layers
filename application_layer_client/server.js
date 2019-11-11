@@ -17,10 +17,10 @@ class User {
 
     writeEmail(to,data) {
         
-        fs.writeFile("./messages/sent/file.txt", data, (err) => {
-            if (err) console.log(err);-
-            console.log("Successfully Written to File.");
-        });
+        // fs.writeFile("./messages/sent/file.txt", data, (err) => {
+        //     if (err) console.log(err);-
+        //     console.log("Successfully Written to File.");
+        // });
 
     }
 

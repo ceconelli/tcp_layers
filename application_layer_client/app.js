@@ -9,6 +9,7 @@ const email = require('./server.js')
 var shell = require('shelljs')
 var tj = require('templatesjs')
 var location = require('location-href')
+const axios = require('axios')
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -33,8 +34,19 @@ app.post('/action_page',function(req, res) {
 	console.log(req.body)
 
 	var user = new email.User("guceconelli@gmail.com");
-	user.writeEmail(req.body["to"],req.body["message"]);
-    var hasfile = false
+	// user.writeEmail(req.body["to"],req.body["message"]);
+  
+  axios.post('http://localhost:10524/receivemessage/' + req.body["message"] , {
+    id: req.body["message"]
+  })
+  .then((res) => {
+    // console.log(`statusCode: ${res.statusCode}`)
+    // console.log(res)
+  })
+  .catch((error) => {
+    console.error(error)
+  })
+
   res.end()
 
 })

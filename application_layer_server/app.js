@@ -34,6 +34,7 @@ app.get('/receive_message2', function (req,res) {
 app.post('/receive_message',function(req,res) {
     var msg=req.body.msg;
     console.log("python: " + msg);
+    console.log("python: " + req.body);
     //const path = './../00_physical_layer/physical_layer/server/messages/received/frame.txt'
     //shell.exec(msg)
     res.send(shell.exec(msg))

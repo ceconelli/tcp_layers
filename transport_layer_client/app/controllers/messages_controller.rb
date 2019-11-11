@@ -1,6 +1,6 @@
 class MessagesController < ApplicationController
   #before_action :set_message, only: [:show, :edit, :update, :destroy, :home]
-
+  protect_from_forgery with: :null_session
   # GET /messages
   # GET /messages.json
   def index
@@ -12,8 +12,25 @@ class MessagesController < ApplicationController
   def show
   end
 
-  def home
-    puts "deu bom"
+  def receiveFromApplicationClient
+    puts "received from application layer: " + params[:id]
+    open('./../application_layer_client/messages/sent/file.txt', 'w') { |f|
+      f.puts "" + params[:id]
+    }
+  end
+
+  def receiveFromPhysicalServer
+    require 'net/http'
+    require 'uri'
+    puts "received from physical layer: " + params[:id]
+
+    uri = URI.parse('http://localhost:8000/receive_message/')
+    header = {'Content-Type': 'text/json'}
+    # Create the HTTP objects
+    http = Net::HTTP.new(uri.host, uri.port)
+    response = Net::HTTP.post_form(uri, 'msg' => params[:id])
+    puts "response: " + response.body
+    return response.body
   end
 
   # GET /messages/new
