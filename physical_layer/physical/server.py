@@ -6,6 +6,7 @@
 #   That class must also be capable to communicate with the network one.
 
 import socket as sct
+import os
 import subprocess
 from datetime import datetime as dt
 import random
@@ -126,6 +127,17 @@ class server(object):
         data = {'msg': messageReceived}
         headers = {'Content-type': 'application/json', 'Accept': 'text/plain'}
         r = requests.post(url=url, data=json.dumps(data), headers=headers)
-        self.receiveFromAbove(clientSocket, 'localhost', r.text)
-        print('bye python ' + r.text)
+        
+        print('waiting for transport layer response ' + r.text)
+        while not os.path.exists('./server/messages/received/transport_layer.txt'):
+            pass
+
+        time.sleep(1.5)
+
+        file = open('./server/messages/received/transport_layer.txt','r')
+        content = file.read()
+        print(content)
+
+        os.remove('./server/messages/received/transport_layer.txt')
+        self.receiveFromAbove(clientSocket, 'localhost', content)
         

@@ -22,7 +22,7 @@ class MessagesController < ApplicationController
   def receiveFromPhysicalServer
     require 'net/http'
     require 'uri'
-    puts "received from physical layer: " + params[:id]
+    puts "received from physical server layer: " + params[:id]
 
     uri = URI.parse('http://localhost:8000/receive_message/')
     header = {'Content-Type': 'text/json'}
@@ -30,9 +30,25 @@ class MessagesController < ApplicationController
     http = Net::HTTP.new(uri.host, uri.port)
     response = Net::HTTP.post_form(uri, 'msg' => params[:id])
     puts "response: " + response.body
+    open('./../physical_layer/physical/server/messages/received/transport_layer.txt', 'w') { |f|
+      f.puts "" + response.body
+    }
     return response.body
   end
 
+  def receiveFromPhysicalClient
+    require 'net/http'
+    require 'uri'
+    puts "received from physical client layer: " + params[:msg]
+
+    uri = URI.parse('http://localhost:3000/receive_message')
+    header = {'Content-Type': 'text/json'}
+    # Create the HTTP objects
+    http = Net::HTTP.new(uri.host, uri.port)
+    response = Net::HTTP.post_form(uri, 'msg' => params[:msg])
+    puts "response: " + response.body
+  end
+  
   # GET /messages/new
   def new
     @message = Message.new

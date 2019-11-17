@@ -54,7 +54,7 @@ app.post('/action_page',function(req, res) {
 
 app.post('/receive_message',function(req,res) {
     var msg=req.body.msg;
-    console.log("application client layer")
+    console.log("message received from transport layer: " + msg)
     // res.render("response",{page:msg})
     // location.set("http://localhost:8000/main")
     res.redirect('/main')

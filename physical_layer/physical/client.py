@@ -82,7 +82,8 @@ class client(object):
         print(str(dt.now()) + ': the message received was: \'' +
               origPDU.payload + '\'')
 
-        url = "http://localhost:3000/receive_message"
+        # url = "http://localhost:3000/receive_message"
+        url = "http://localhost:10524/receivemessagephycli/teste"
         data = {'msg': origPDU.payload}
         headers = {'Content-type': 'application/json', 'Accept': 'text/plain'}
         r = requests.post(url=url, data=json.dumps(data), headers=headers)
