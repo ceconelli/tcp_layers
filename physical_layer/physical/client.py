@@ -134,4 +134,3 @@ class client(object):
         self.receiveFromAbove(connection, 'localhost', content)
         self.receiveFromServer(connection)
         
-        return True
